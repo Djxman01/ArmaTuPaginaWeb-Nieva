@@ -15,22 +15,42 @@
 <head>
 
   <style>
-    @font-face {
-      font-family: 'StarJedi';
-      src: url("{% static 'fonts/starjedi.ttf' %}") format('truetype');
-    }
+  @font-face {
+    font-family: 'StarJedi';
+    src: url("{% static 'fonts/starjedi.ttf' %}") format('truetype');
+    font-display: swap;
+  }
 
-    @font-face {
-  font-family: 'StarJedi';
-  src: url("{% static 'fonts/starjedi.ttf' %}") format('truetype');
-  font-display: swap;
-}
+  h1, h2, h3, .navbar-brand, .titulo-starwars {
+  font-family: 'StarJedi', sans-serif;
+  }
 
-    h1, .navbar-brand {
-      font-family: 'StarJedi', ;
-    }
-    
-  </style>
+  body {
+    background-color: #000;
+    color: #fff;
+    font-family: 'StarJedi', sans-serif;
+    background-image: url("{% static 'img/fondo.jpeg' %}");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+  }
+
+  .navbar {
+    background-color: #111;
+  }
+
+  .navbar-brand,
+  .nav-link {
+    color: #FFE81F !important;
+    font-weight: bold;
+  }
+
+  .nav-link:hover {
+    color: #fff !important;
+  }
+</style>
+
 </head>
 
 </head>

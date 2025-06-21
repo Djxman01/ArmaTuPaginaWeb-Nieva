@@ -24,5 +24,4 @@ urlpatterns = [
     path('peliculas/', include('contenido.urls')),
     path('usuarios/', include('usuarios.urls')), 
 
-
 ]
