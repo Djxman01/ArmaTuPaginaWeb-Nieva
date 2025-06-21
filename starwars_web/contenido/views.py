@@ -1,3 +1,5 @@
+# contenido/views.py
 from django.shortcuts import render
 
-# Create your views here.
+def vistaPeliculas(request):
+    return render(request, 'contenido/peliculas.html')
