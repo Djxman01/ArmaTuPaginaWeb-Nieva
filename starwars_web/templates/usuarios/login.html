@@ -1,5 +1,16 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
 
 {% block content %}
-<h1 class="text-center text-white">Login </h1>
+  <div class="container mt-5">
+    <h2 class="mb-4">Iniciar Sesión</h2>
+    <form method="post">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button type="submit" class="btn btn-warning">Iniciar Sesión</button>
+    </form>
+
+    {% if error %}
+      <p class="text-danger mt-3">{{ error }}</p>
+    {% endif %}
+  </div>
 {% endblock %}

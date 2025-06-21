@@ -1,5 +1,12 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h1 class="text-center text-white">Registro de la pagina</h1>
+<div class="container mt-5">
+  <h2 class="text-warning">Registro de Usuario</h2>
+  <form method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-warning">Registrarse</button>
+  </form>
+</div>
 {% endblock %}

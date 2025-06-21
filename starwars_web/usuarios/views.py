@@ -1,7 +1,35 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.contrib.auth import login, authenticate
+from .forms import RegistroUsuarioForm
+from django.contrib.auth.forms import AuthenticationForm
+
+def registro(request):
+    if request.method == 'POST':
+        form = RegistroUsuarioForm(request.POST)
+        if form.is_valid():
+            usuario = form.save()
+            login(request, usuario)  # inicia sesión automáticamente
+            return redirect('inicio')  # redirige al home después del registro
+    else:
+        form = RegistroUsuarioForm()
+    
+    return render(request, 'usuarios/registro.html', {'form': form})
+
 
 def login_view(request):
-    return render(request, 'usuarios/login.html')
-    
-def vistaRegistro(request):
-    return render(request, 'usuarios/registro.html')
+    error = ""
+    if request.method == 'POST':
+        form = AuthenticationForm(request, data=request.POST)
+        if form.is_valid():
+            nombre = form.cleaned_data['username']
+            contraseña = form.cleaned_data['password']
+            usuario = authenticate(request, username=nombre, password=contraseña)
+            if usuario is not None:
+                login(request, usuario)
+                return redirect('inicio')
+            else:
+                error = "Usuario o contraseña incorrectos"
+    else:
+        form = AuthenticationForm()
+
+    return render(request, 'usuarios/login.html', {'form': form, 'error': error})
