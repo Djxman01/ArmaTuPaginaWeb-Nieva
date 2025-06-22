@@ -1,0 +1,14 @@
+
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1 class="text-center mb-4">Agregar Película o Serie</h1>
+
+  <form method="POST" enctype="multipart/form-data" class="mx-auto" style="max-width: 500px;">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <div class="text-center">
+      <button type="submit" class="btn btn-warning">Agregar</button>
+    </div>
+  </form>
+{% endblock %}
