@@ -4,6 +4,7 @@ from .models import Personaje
 from django.views.generic import ListView
 from django.shortcuts import get_object_or_404
 from django.contrib import messages
+from django.views.generic import DetailView
 
 class ListaPersonajesView(ListView):
     model = Personaje
@@ -26,3 +27,8 @@ def eliminar_personaje(request, pk):
     personaje.delete()
     messages.success(request, f'Personaje "{personaje.nombre}" eliminado correctamente.')
     return redirect('personajes')
+
+class DetallePersonajeView(DetailView):
+    model = Personaje
+    template_name = 'personajes/detalle_personaje.html'
+    context_object_name = 'personaje'

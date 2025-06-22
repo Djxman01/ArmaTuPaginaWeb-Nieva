@@ -12,7 +12,13 @@
     {% for personaje in personajes %}
     <div class="col-md-4 mb-4">
       <div class="card h-100 bg-dark text-white">
-        <img src="{{ personaje.imagen.url }}" class="card-img-top img-fluid imagen-personaje" alt="{{ personaje.nombre }}">
+
+                
+        <a href="{% url 'detalle_personaje' pk=personaje.pk %}">
+          <img src="{{ personaje.imagen.url }}" class="card-img-top img-fluid imagen-personaje" alt="{{ personaje.nombre }}">
+        </a>
+
+      
         <div class="card-body">
           <h5 class="card-title">{{ personaje.nombre }}</h5>
           <p class="card-text">{{ personaje.descripcion }}</p>

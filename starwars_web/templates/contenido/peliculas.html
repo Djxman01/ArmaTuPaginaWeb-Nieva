@@ -1,26 +1,30 @@
 {% extends 'base.html' %}
 
 {% block content %}
-  <h1 class="text-center">Películas / Series</h1>
+<h1 class="text-center">Películas / Series</h1>
 
-  <div class="text-center mb-3">
+<div class="text-center mb-3">
     <a href="{% url 'agregar_peliculas' %}" class="btn btn-warning">Agregar Película</a>
-  </div>
+</div>
 
-  <div class="row justify-content-center">
-    {% for item in contenido %}
-      <div class="col-md-4 mb-4">
-        <div class="card bg-dark text-white">
-          {% if item.imagen %}
-            <img src="{{ peliculas.imagen.url }}" class="card-img-top" alt="{{ item.nombre }}">
-          {% endif %}
-          <div class="card-body">
-            <h5 class="card-title">{{ item.nombre }}</h5>
-            <p class="card-text">{{ item.descripcion }}</p>
-            <a href="{% url 'eliminar_peliculas' item.id %}" class="btn btn-danger">Eliminar</a>
-          </div>
+<div class="container">
+    <div class="row justify-content-center">
+        {% for item in contenido %}
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 bg-dark text-white">
+                <img src="{{ peliculas.imagen.url }}" class="card-img-top img-fluid imagen-personaje"
+                    alt="{{ item.nombre }}">
+                <div class="card-body">
+                    <h5 class="card-title">{{ item.nombre }}</h5>
+                    <p class="card-text">{{ item.descripcion }}</p>
+                    <form method="POST" action="{% url 'eliminar_peliculas' item.id %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
+                    </form>
+                </div>
+            </div>
         </div>
-      </div>
-    {% endfor %}
-  </div>
+        {% endfor %}
+    </div>
+</div>
 {% endblock %}
