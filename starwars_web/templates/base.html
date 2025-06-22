@@ -24,6 +24,31 @@
         font-display: swap;
       }
 
+      html,
+      body {
+        height: 100%;
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+      }
+
+      main {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .content-box {
+        max-width: 3000px;
+        background-color: #000;
+        padding: 3rem;
+        flex: 1;
+        border-radius: 8px;
+        box-shadow: 0 0 80px 50px rgba(0, 0, 0, 0.4);
+        mask-image: linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%);
+        -webkit-mask-image: linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%);
+      }
+
       h1,
       h2,
       h3,
@@ -52,6 +77,8 @@
 
       .navbar {
         background-color: #111;
+        border-bottom: 1px solid #575353;
+        /* línea separadora */
       }
 
       .navbar-brand,
@@ -74,6 +101,21 @@
       footer a:hover {
         color: #FFE81F;
       }
+
+
+      .custom-alert {
+        max-width: 600px;
+        /* Limita el ancho máximo */
+        margin: 20px auto;
+        /* Centrado horizontal con margen vertical */
+        padding: 15px 25px;
+        border-radius: 10px;
+        background-color: #113311;
+        border: 1px solid #00ff00;
+        color: #ccffcc;
+        font-weight: bold;
+        text-align: center;
+      }
     </style>
 
   </head>
@@ -83,7 +125,7 @@
 <body>
   <nav class="navbar navbar-expand-lg navbar-dark bg-black px-3">
     <div class="container-fluid">
-      <a class="navbar-brand text-white" href="{% url 'inicio' %}">Star Wars</a>
+
 
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarStarWars"
         aria-controls="navbarStarWars" aria-expanded="false" aria-label="Toggle navigation">
@@ -99,14 +141,34 @@
             <a class="nav-link text-warning fw-bold" href="{% url 'peliculas' %}">Películas/Series</a>
           </li>
         </ul>
-
+        <a class="navbar-brand text-white" href="{% url 'inicio' %}">
+          <img src="{% static 'img/logo.png' %}" alt="Logo" style="height: 80px;">
+        </a>
         <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-          <li class="nav-item">
-            <a class="nav-link text-warning fw-bold" href="{% url 'login' %}">Iniciar sesión</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link text-warning fw-bold" href="{% url 'registro' %}">Registrarse</a>
-          </li>
+          <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+            {% if user.is_authenticated %}
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle text-warning fw-bold" href="#" role="button" data-bs-toggle="dropdown"
+                aria-expanded="false">
+                <i class="fas fa-user"></i> {{ user.username }}
+              </a>
+              <ul class="dropdown-menu dropdown-menu-end">
+                <li><a class="dropdown-item" href="{% url 'logout' %}">Cerrar sesión</a></li>
+              </ul>
+            </li>
+            {% else %}
+            <li class="nav-item">
+              <a class="nav-link text-warning fw-bold" href="{% url 'login' %}">
+                <i class="fas fa-sign-in-alt me-2"></i> Iniciar sesión
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link text-warning fw-bold" href="{% url 'registro' %}">
+                <i class="fas fa-user-plus me-2"></i> Registrarse
+              </a>
+            </li>
+            {% endif %}
+          </ul>
         </ul>
       </div>
     </div>
@@ -115,32 +177,55 @@
 
 
 
-  <main class="flex-grow-1 container mt-4">
-    {% block content %}
+ 
+
+  <main class="flex-grow-1 container-fluid p-0">
+  <div class="content-box ">
+     
+      {% if messages %}
+        <div class="text-center mb-3">
+          {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} custom-alert d-inline-block px-4 py-2">
+              {% if message.tags == 'success' %}
+                <i class="fas fa-check-circle me-2"></i>
+              {% elif message.tags == 'error' %}
+                <i class="fas fa-exclamation-triangle me-2"></i>
+              {% endif %}
+              {{ message }}
+            </div>
+          {% endfor %}
+        </div>
+      {% endif %}
+
+{% block content %}
+     
     {% endblock %}
-  </main>
+  </div>
+</main>
 
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
- <footer style="background-color: #1a1a1a; text-align: center; padding: 1px ;">
-  <div style="margin-bottom: 5px;">
-    <a href="https://www.instagram.com" target="_blank" style="color: white;">
-      <i class="fab fa-instagram" style="font-size: 18px; margin: 0 6px;"></i>
-    </a>
-    <a href="https://www.youtube.com" target="_blank" style="color: white;">
-      <i class="fab fa-youtube" style="font-size: 18px; margin: 0 6px;"></i>
-    </a>
-    <a href="https://www.tiktok.com" target="_blank" style="color: white;">
-      <i class="fab fa-tiktok" style="font-size: 18px; margin: 0 6px;"></i>
-    </a>
-  </div>
-  <p style="color: white; font-size: 14px; margin-top: 5px;">© 2025 Star Wars Fan Page</p>
-</footer>
+  <footer style="background-color: #1a1a1a; text-align: center; padding: 1px ;">
+    <div style="margin-bottom: 5px;">
+      <a href="https://www.instagram.com" target="_blank" style="color: white;">
+        <i class="fab fa-instagram" style="font-size: 18px; margin: 0 6px;"></i>
+      </a>
+      <a href="https://www.youtube.com" target="_blank" style="color: white;">
+        <i class="fab fa-youtube" style="font-size: 18px; margin: 0 6px;"></i>
+      </a>
+      <a href="https://www.tiktok.com" target="_blank" style="color: white;">
+        <i class="fab fa-tiktok" style="font-size: 18px; margin: 0 6px;"></i>
+      </a>
+    </div>
+    <p style="color: white; font-size: 14px; margin-top: 5px;">© 2025 Star Wars Fan Page</p>
+  </footer>
 
 
 
 
 </body>
+
+
 
 </html>

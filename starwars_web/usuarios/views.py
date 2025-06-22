@@ -2,6 +2,8 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate
 from .forms import RegistroUsuarioForm
 from django.contrib.auth.forms import AuthenticationForm
+from django.contrib import messages
+from django.contrib.auth import logout
 
 def registro(request):
     if request.method == 'POST':
@@ -9,6 +11,7 @@ def registro(request):
         if form.is_valid():
             usuario = form.save()
             login(request, usuario)  # inicia sesión automáticamente
+            messages.success(request, '¡Usuario registrado con éxito!')
             return redirect('inicio')  # redirige al home después del registro
     else:
         form = RegistroUsuarioForm()
@@ -33,3 +36,8 @@ def login_view(request):
         form = AuthenticationForm()
 
     return render(request, 'usuarios/login.html', {'form': form, 'error': error})
+
+
+def cerrar_sesion(request):
+    logout(request)
+    return redirect('inicio')
