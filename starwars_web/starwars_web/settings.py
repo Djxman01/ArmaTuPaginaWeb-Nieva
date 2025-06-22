@@ -132,3 +132,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 from django.contrib.messages import constants as messages
 
 MESSAGE_STORAGE = 'django.contrib.messages.storage.session.SessionStorage'
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'

@@ -1,6 +1,29 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h1 class="text-center text-white">Personajes</h1>
-<!-- Tu contenido acá -->
+<h1 class="text-center mb-4">Personajes</h1>
+
+<div class="text-center mb-4">
+  <a href="{% url 'agregar_personaje' %}" class="btn btn-warning">Agregar Personaje</a>
+</div>
+
+<div class="container">
+  <div class="row justify-content-center">
+    {% for personaje in personajes %}
+    <div class="col-md-4 mb-4">
+      <div class="card h-100 bg-dark text-white">
+        <img src="{{ personaje.imagen.url }}" class="card-img-top img-fluid imagen-personaje" alt="{{ personaje.nombre }}">
+        <div class="card-body">
+          <h5 class="card-title">{{ personaje.nombre }}</h5>
+          <p class="card-text">{{ personaje.descripcion }}</p>
+          <form method="POST" action="{% url 'eliminar_personaje' personaje.id %}">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
+          </form>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
 {% endblock %}
